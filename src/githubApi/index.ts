@@ -25,6 +25,13 @@ query ($query: String!) {
         prTemplate: object(expression: "master:.github/PULL_REQUEST_TEMPLATE.md") {
           abbreviatedOid
         }
+        repositoryTopics(first: 50) {
+          nodes {
+            topic {
+              name
+            }
+          }
+        }
       }
     }
   }
@@ -42,23 +49,55 @@ interface ObjectExists {
   abbreviatedOid: string
 }
 
+interface Topic {
+  name: string
+}
+
+interface RepositoryTopicConnection {
+  nodes: Array<{topic: Topic}>
+}
+
+interface RepoResponse {
+  name: string
+  codeowners: ObjectContents
+  oldDependabot: ObjectExists
+  newDependabot: ObjectExists
+  prTemplate: ObjectExists
+  repositoryTopics: RepositoryTopicConnection
+}
+
 interface Repo {
   name: string
   codeowners: ObjectContents
   oldDependabot: ObjectExists
   newDependabot: ObjectExists
   prTemplate: ObjectExists
+  repositoryTopics: Array<Topic>
 }
 
 interface RepoNameQueryResponse {
   search: {
-    nodes: Array<Repo>
+    nodes: Array<RepoResponse>
   }
 }
 
-const getRepoNames = async (query: string) => {
+const executeQuery = async (query: string): Promise<RepoNameQueryResponse> => {
   return await fetchGraphQL<RepoNameQueryResponse>(GITHUB_URL, GITHUB_REPO_NAMES_QUERY, {query}, headers)
 }
 
+const mapTopics = (topicConnection: RepositoryTopicConnection): Topic[] => {
+  return topicConnection.nodes.map(topic => topic.topic)
+}
+
+const mapRepo = (repoResponse: RepoResponse): Repo => {
+  const repositoryTopics = mapTopics(repoResponse.repositoryTopics)
+  return {...repoResponse, repositoryTopics}
+}
+
+const getRepoDetails = async (query: string): Promise<Array<Repo>> => {
+  const response = await executeQuery(query)
+  return response.search.nodes.map(mapRepo);
+}
+
 export { Repo }
-export default getRepoNames
+export default getRepoDetails

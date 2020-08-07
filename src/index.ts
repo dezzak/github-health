@@ -1,4 +1,4 @@
-import getRepoNames, { Repo } from './githubApi'
+import getRepoDetails, { Repo } from './githubApi'
 
 const FLAG_SHOW_GOOD_DETAIL = false
 
@@ -92,14 +92,14 @@ const scanRepo = (repo: Repo) => {
   repoGood.length > 0 && FLAG_SHOW_GOOD_DETAIL && console.info(repoGood)
 }
 
-getRepoNames('psr- org:JSainsburyPlc archived:false')
+getRepoDetails('psr- org:JSainsburyPlc archived:false')
   .then(repos => {
-    repos.search.nodes.forEach(scanRepo)
+    repos.forEach(scanRepo)
   })
   .catch(r => console.error(r))
 
-getRepoNames('driveplan- org:JSainsburyPlc archived:false')
+getRepoDetails('driveplan- org:JSainsburyPlc archived:false')
   .then(repos => {
-    repos.search.nodes.forEach(scanRepo)
+    repos.forEach(scanRepo)
   })
   .catch(r => console.error(r))
