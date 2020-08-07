@@ -32,6 +32,7 @@ query ($query: String!) {
             }
           }
         }
+        viewerCanAdminister
       }
     }
   }
@@ -64,6 +65,7 @@ interface RepoResponse {
   newDependabot: ObjectExists
   prTemplate: ObjectExists
   repositoryTopics: RepositoryTopicConnection
+  viewerCanAdminister: boolean
 }
 
 interface Repo {
@@ -72,7 +74,8 @@ interface Repo {
   oldDependabot: ObjectExists
   newDependabot: ObjectExists
   prTemplate: ObjectExists
-  repositoryTopics: Array<Topic>
+  repositoryTopics: Array<string>
+  viewerCanAdminister: boolean
 }
 
 interface RepoNameQueryResponse {
@@ -85,8 +88,8 @@ const executeQuery = async (query: string): Promise<RepoNameQueryResponse> => {
   return await fetchGraphQL<RepoNameQueryResponse>(GITHUB_URL, GITHUB_REPO_NAMES_QUERY, {query}, headers)
 }
 
-const mapTopics = (topicConnection: RepositoryTopicConnection): Topic[] => {
-  return topicConnection.nodes.map(topic => topic.topic)
+const mapTopics = (topicConnection: RepositoryTopicConnection): string[] => {
+  return topicConnection.nodes.map(topic => topic.topic.name)
 }
 
 const mapRepo = (repoResponse: RepoResponse): Repo => {
