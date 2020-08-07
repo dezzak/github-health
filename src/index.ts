@@ -20,6 +20,10 @@ const checkPRTemplate = (repo: Repo): CheckResults => {
 
 const checkDependabot = (repo: Repo): CheckResults => {
   const results: CheckResults = {errors: [], warnings: [], good: []}
+  if (/\-infra$/.test(repo.name)) {
+    // Skip for infra repos
+    return results
+  }
   if (repo.newDependabot) {
     results.good.push('V2 Dependabot config found')
   } else if (repo.oldDependabot) {
@@ -45,6 +49,16 @@ const checkCodeowners = (repo: Repo): CheckResults => {
 }
 
 const scanRepo = (repo: Repo) => {
+  if (/^drm-/.test(repo.name)) {
+    // skip if DriveTime
+    return
+  }
+
+  if (/^DS033-/.test(repo.name)) {
+    // skip if DACE
+    return
+  }
+
   const repoErrors: string[] = []
   const repoGood: string[] = []
   const repoWarning: string[] = []
