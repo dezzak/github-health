@@ -6,6 +6,7 @@ const FLAG_CHECK_CODEOWNERS = false
 const FLAG_CHECK_PR_TEMPLATE = false
 const FLAG_CHECK_TOPICS = true
 const FLAG_CHECK_ADMIN = true
+const tagFilter = process.env.FILTER_TAGS ?? false
 
 interface CheckResults {
   errors: string[],
@@ -149,14 +150,22 @@ const scanRepo = (repo: Repo) => {
   repoGood.length > 0 && FLAG_SHOW_GOOD_DETAIL && console.info(repoGood)
 }
 
-getRepoDetails('psr- org:JSainsburyPlc archived:false')
-  .then(repos => {
-    repos.forEach(scanRepo)
-  })
-  .catch(r => console.error(r))
+if (!tagFilter) {
+  getRepoDetails('psr- org:JSainsburyPlc archived:false')
+    .then(repos => {
+      repos.forEach(scanRepo)
+    })
+    .catch(r => console.error(r))
 
-getRepoDetails('driveplan- org:JSainsburyPlc archived:false')
-  .then(repos => {
-    repos.forEach(scanRepo)
-  })
-  .catch(r => console.error(r))
+  getRepoDetails('driveplan- org:JSainsburyPlc archived:false')
+    .then(repos => {
+      repos.forEach(scanRepo)
+    })
+    .catch(r => console.error(r))
+} else {
+  getRepoDetails(`topic:${tagFilter} org:JSainsburyPlc archived:false`)
+    .then(repos => {
+      repos.forEach(scanRepo)
+    })
+    .catch(r => console.error(r))
+}
