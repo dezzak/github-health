@@ -1,9 +1,9 @@
 import getRepoDetails, { Repo } from './githubApi'
 
 const FLAG_SHOW_GOOD_DETAIL = false
-const FLAG_CHECK_DEPENDABOT = false
-const FLAG_CHECK_CODEOWNERS = false
-const FLAG_CHECK_PR_TEMPLATE = false
+const FLAG_CHECK_DEPENDABOT = true
+const FLAG_CHECK_CODEOWNERS = true
+const FLAG_CHECK_PR_TEMPLATE = true
 const FLAG_CHECK_TOPICS = true
 const FLAG_CHECK_ADMIN = true
 const tagFilter = process.env.FILTER_TAGS ?? false
