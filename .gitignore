@@ -1,1 +1,5 @@
 githubtoken
+
+.idea
+dist
+node_modules
