@@ -18,8 +18,16 @@ const headers = {
   Authorization: `bearer ${githubToken}`
 }
 
+interface RepoNameQueryResponse {
+  search: {
+    nodes: Array<{
+      name: String
+    }>
+  }
+}
+
 const getRepoNames = async (query: String) => {
-  return await fetchGraphQL(GITHUB_URL, GITHUB_REPO_NAMES_QUERY, {query}, headers)
+  return await fetchGraphQL<RepoNameQueryResponse>(GITHUB_URL, GITHUB_REPO_NAMES_QUERY, {query}, headers)
 }
 
 export default getRepoNames
