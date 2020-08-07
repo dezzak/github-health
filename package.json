@@ -2,11 +2,32 @@
   "name": "github-health",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "engines": {
+    "node": "14.x",
+    "npm": "6.x"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rm -rf dist && tsc",
+    "compile": "tsc --noEmit",
+    "start": "node .",
+    "lint": "tslint --project .",
+    "prettier": "prettier --list-different \"src/**/*.ts\""
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "GPL-3.0-only",
+  "dependencies": {
+    "@types/node": "^14.0.27",
+    "cross-fetch": "^3.0.5",
+    "graphql": "^15.3.0",
+    "graphql-request": "^3.0.0"
+  },
+  "devDependencies": {
+    "prettier": "^2.0.5",
+    "tslint": "^5.20.1",
+    "tslint-config-airbnb": "^5.11.1",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.8.3"
+  }
 }

@@ -1,0 +1,25 @@
+import 'cross-fetch/polyfill'
+import { GraphQLClient } from 'graphql-request'
+
+const fetchGraphQL = async <T>(url: string, query: string, variables?: object, headers?: object): Promise<T> => {
+  const gql = new GraphQLClient(url)
+  // @ts-ignore
+  gql.setHeaders(headers)
+
+  try {
+    return await gql.request(query, variables)
+  } catch (e) {
+    const { errors, status } = e?.response
+
+    if (errors) {
+      throw new Error(`GraphQL Error: ${errors[0]?.message}`)
+    }
+    if (status !== 200) {
+      throw new Error(`Could not retrieve data from ${url} - status was ${status}`)
+    }
+
+    throw e
+  }
+}
+
+export default fetchGraphQL
