@@ -4,6 +4,7 @@ Personal development project to read github repositories and check things such a
 - Dependabot config
 - Codeowners set
 - PR template set
+- labels set [TODO] 
 
 ## Usage
 
