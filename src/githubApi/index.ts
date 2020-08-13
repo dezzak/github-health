@@ -1,8 +1,6 @@
 import { gql } from 'graphql-request/dist'
 import fetchGraphQL from '../utils/fetchGraphQL'
 
-//{"query":"psr- org:JSainsburyPlc archived:false"}
-//https://raw.githubusercontent.com/JSainsburyPLC/psr-bookmaker/master/.github/CODEOWNERS?token=AAZNELFDY6AIURVFCJOY26C7G2DLO
 const githubToken = process.env.GITHUB_TOKEN
 const GITHUB_URL = 'https://api.github.com/graphql'
 const GITHUB_REPO_NAMES_QUERY = gql`
