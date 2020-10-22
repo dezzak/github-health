@@ -1,7 +1,11 @@
 {
   "name": "github-health",
   "version": "1.0.0",
-  "description": "",
+  "description": "View health of github repos",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dezzak/github-health"
+  },
   "main": "dist/index.js",
   "engines": {
     "node": "14.x",
