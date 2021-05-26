@@ -16,7 +16,7 @@ interface CheckResults {
 
 const checkPRTemplate = (repo: Repo): CheckResults => {
   const results: CheckResults = {errors: [], warnings: [], good: []}
-  if (repo.prTemplate) {
+  if (repo.prTemplate || repo.prTemplateAlt) {
     results.good.push('PR Template found')
   } else {
     results.errors.push('No PR Template found')

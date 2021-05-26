@@ -23,6 +23,9 @@ query ($query: String!) {
         prTemplate: object(expression: "master:.github/PULL_REQUEST_TEMPLATE.md") {
           abbreviatedOid
         }
+        prTemplateAlt: object(expression: "master:.github/PULL_REQUEST_TEMPLATE") {
+          abbreviatedOid
+        }
         repositoryTopics(first: 50) {
           nodes {
             topic {
@@ -62,6 +65,7 @@ interface RepoResponse {
   oldDependabot: ObjectExists
   newDependabot: ObjectExists
   prTemplate: ObjectExists
+  prTemplateAlt: ObjectExists
   repositoryTopics: RepositoryTopicConnection
   viewerCanAdminister: boolean
 }
@@ -72,6 +76,7 @@ interface Repo {
   oldDependabot: ObjectExists
   newDependabot: ObjectExists
   prTemplate: ObjectExists
+  prTemplateAlt: ObjectExists
   repositoryTopics: Array<string>
   viewerCanAdminister: boolean
 }
