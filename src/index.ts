@@ -6,6 +6,7 @@ const FLAG_CHECK_CODEOWNERS = true
 const FLAG_CHECK_PR_TEMPLATE = true
 const FLAG_CHECK_TOPICS = true
 const FLAG_CHECK_ADMIN = true
+const FLAG_CHECK_SAINSBURYS_JSON = true
 const tagFilter = process.env.FILTER_TAGS ?? false
 
 interface CheckResults {
@@ -50,6 +51,16 @@ const checkCodeowners = (repo: Repo): CheckResults => {
     }
   } else {
     results.errors.push('No codeowners config found')
+  }
+  return results
+}
+
+const checkSainsburysJson = (repo: Repo): CheckResults => {
+  const results: CheckResults = {errors: [], warnings: [], good: []}
+  if (repo.sainsburysJson) {
+    results.good.push('sainsburys.json found')
+  } else {
+    results.errors.push('No sainsburys.json found')
   }
   return results
 }
@@ -134,6 +145,13 @@ const scanRepo = (repo: Repo) => {
     topicsResults.errors.forEach(v => repoErrors.push(v))
     topicsResults.good.forEach(v => repoGood.push(v))
     topicsResults.warnings.forEach(v => repoWarning.push(v))
+  }
+
+  if (FLAG_CHECK_SAINSBURYS_JSON) {
+    const sainsburysJsonResults = checkSainsburysJson(repo)
+    sainsburysJsonResults.errors.forEach(v => repoErrors.push(v))
+    sainsburysJsonResults.good.forEach(v => repoGood.push(v))
+    sainsburysJsonResults.warnings.forEach(v => repoWarning.push(v))
   }
 
   if (repoErrors.length == 0) {

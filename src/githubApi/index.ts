@@ -26,6 +26,9 @@ query ($query: String!) {
         prTemplateAlt: object(expression: "master:.github/PULL_REQUEST_TEMPLATE") {
           abbreviatedOid
         }
+        sainsburysJson: object(expression: "master:sainsburys.json") {
+          abbreviatedOid
+        }
         repositoryTopics(first: 50) {
           nodes {
             topic {
@@ -66,6 +69,7 @@ interface RepoResponse {
   newDependabot: ObjectExists
   prTemplate: ObjectExists
   prTemplateAlt: ObjectExists
+  sainsburysJson: ObjectExists
   repositoryTopics: RepositoryTopicConnection
   viewerCanAdminister: boolean
 }
@@ -77,6 +81,7 @@ interface Repo {
   newDependabot: ObjectExists
   prTemplate: ObjectExists
   prTemplateAlt: ObjectExists
+  sainsburysJson: ObjectExists
   repositoryTopics: Array<string>
   viewerCanAdminister: boolean
 }
