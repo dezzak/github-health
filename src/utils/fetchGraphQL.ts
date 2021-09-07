@@ -6,7 +6,7 @@ const fetchGraphQL = async <T>(url: string, query: string, variables?: object, h
 
   try {
     return await gql.request(query, variables)
-  } catch (e) {
+  } catch (e: any) {
     const { errors, status } = e?.response
 
     if (errors) {
