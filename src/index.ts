@@ -10,13 +10,13 @@ const FLAG_CHECK_SAINSBURYS_JSON = true
 const tagFilter = process.env.FILTER_TAGS ?? false
 
 interface CheckResults {
-  errors: string[],
-  warnings: string[],
+  errors: string[]
+  warnings: string[]
   good: string[]
 }
 
 const checkPRTemplate = (repo: Repo): CheckResults => {
-  const results: CheckResults = {errors: [], warnings: [], good: []}
+  const results: CheckResults = { errors: [], warnings: [], good: [] }
   if (repo.prTemplate || repo.prTemplateAlt) {
     results.good.push('PR Template found')
   } else {
@@ -26,7 +26,7 @@ const checkPRTemplate = (repo: Repo): CheckResults => {
 }
 
 const checkDependabot = (repo: Repo): CheckResults => {
-  const results: CheckResults = {errors: [], warnings: [], good: []}
+  const results: CheckResults = { errors: [], warnings: [], good: [] }
   if (/\-infra$/.test(repo.name)) {
     // Skip for infra repos
     return results
@@ -42,9 +42,9 @@ const checkDependabot = (repo: Repo): CheckResults => {
 }
 
 const checkCodeowners = (repo: Repo): CheckResults => {
-  const results: CheckResults = {errors: [], warnings: [], good: []}
+  const results: CheckResults = { errors: [], warnings: [], good: [] }
   if (repo.codeowners) {
-    if(repo.codeowners.text.search(/^\* @JSainsburyPLC\/DrivePlan/m) >= 0) {
+    if (repo.codeowners.text.search(/^\* @JSainsburyPLC\/DrivePlan/m) >= 0) {
       results.good.push('Codeowners configured correctly')
     } else {
       results.errors.push('Codeowners not configured correctly')
@@ -56,7 +56,7 @@ const checkCodeowners = (repo: Repo): CheckResults => {
 }
 
 const checkSainsburysJson = (repo: Repo): CheckResults => {
-  const results: CheckResults = {errors: [], warnings: [], good: []}
+  const results: CheckResults = { errors: [], warnings: [], good: [] }
   if (repo.sainsburysJson) {
     results.good.push('sainsburys.json found')
   } else {
@@ -66,7 +66,7 @@ const checkSainsburysJson = (repo: Repo): CheckResults => {
 }
 
 const checkTopics = (repo: Repo) => {
-  const results: CheckResults = {errors: [], warnings: [], good: []}
+  const results: CheckResults = { errors: [], warnings: [], good: [] }
 
   const requiredTopics = ['plan-schedule-route', 'manchester']
   const requireAtLeastOneOf = ['psr-sausage', 'psr-tomato']
@@ -79,7 +79,7 @@ const checkTopics = (repo: Repo) => {
     }
   })
 
-  if (requireAtLeastOneOf.some(topic => repo.repositoryTopics.indexOf(topic) >= 0)) {
+  if (requireAtLeastOneOf.some((topic) => repo.repositoryTopics.indexOf(topic) >= 0)) {
     results.good.push(`Found one of topics: ${requireAtLeastOneOf.join(', ')}`)
   } else {
     results.errors.push(`One or more of the following topics should be present: ${requireAtLeastOneOf.join(', ')}`)
@@ -89,7 +89,7 @@ const checkTopics = (repo: Repo) => {
 }
 
 const checkAdmin = (repo: Repo): CheckResults => {
-  const results: CheckResults = {errors: [], warnings: [], good: []}
+  const results: CheckResults = { errors: [], warnings: [], good: [] }
   if (repo.viewerCanAdminister) {
     results.good.push('Admin rights set')
   } else {
@@ -114,44 +114,44 @@ const scanRepo = (repo: Repo) => {
 
   if (FLAG_CHECK_ADMIN) {
     const adminResults = checkAdmin(repo)
-    adminResults.errors.forEach(v => repoErrors.push(v))
-    adminResults.good.forEach(v => repoGood.push(v))
-    adminResults.warnings.forEach(v => repoWarning.push(v))
+    adminResults.errors.forEach((v) => repoErrors.push(v))
+    adminResults.good.forEach((v) => repoGood.push(v))
+    adminResults.warnings.forEach((v) => repoWarning.push(v))
   }
 
   if (FLAG_CHECK_PR_TEMPLATE) {
     const prResults = checkPRTemplate(repo)
-    prResults.errors.forEach(v => repoErrors.push(v))
-    prResults.good.forEach(v => repoGood.push(v))
-    prResults.warnings.forEach(v => repoWarning.push(v))
+    prResults.errors.forEach((v) => repoErrors.push(v))
+    prResults.good.forEach((v) => repoGood.push(v))
+    prResults.warnings.forEach((v) => repoWarning.push(v))
   }
 
   if (FLAG_CHECK_DEPENDABOT) {
     const dependabotResults = checkDependabot(repo)
-    dependabotResults.errors.forEach(v => repoErrors.push(v))
-    dependabotResults.good.forEach(v => repoGood.push(v))
-    dependabotResults.warnings.forEach(v => repoWarning.push(v))
+    dependabotResults.errors.forEach((v) => repoErrors.push(v))
+    dependabotResults.good.forEach((v) => repoGood.push(v))
+    dependabotResults.warnings.forEach((v) => repoWarning.push(v))
   }
 
   if (FLAG_CHECK_CODEOWNERS) {
     const codeownersResults = checkCodeowners(repo)
-    codeownersResults.errors.forEach(v => repoErrors.push(v))
-    codeownersResults.good.forEach(v => repoGood.push(v))
-    codeownersResults.warnings.forEach(v => repoWarning.push(v))
+    codeownersResults.errors.forEach((v) => repoErrors.push(v))
+    codeownersResults.good.forEach((v) => repoGood.push(v))
+    codeownersResults.warnings.forEach((v) => repoWarning.push(v))
   }
 
   if (FLAG_CHECK_TOPICS) {
     const topicsResults = checkTopics(repo)
-    topicsResults.errors.forEach(v => repoErrors.push(v))
-    topicsResults.good.forEach(v => repoGood.push(v))
-    topicsResults.warnings.forEach(v => repoWarning.push(v))
+    topicsResults.errors.forEach((v) => repoErrors.push(v))
+    topicsResults.good.forEach((v) => repoGood.push(v))
+    topicsResults.warnings.forEach((v) => repoWarning.push(v))
   }
 
   if (FLAG_CHECK_SAINSBURYS_JSON) {
     const sainsburysJsonResults = checkSainsburysJson(repo)
-    sainsburysJsonResults.errors.forEach(v => repoErrors.push(v))
-    sainsburysJsonResults.good.forEach(v => repoGood.push(v))
-    sainsburysJsonResults.warnings.forEach(v => repoWarning.push(v))
+    sainsburysJsonResults.errors.forEach((v) => repoErrors.push(v))
+    sainsburysJsonResults.good.forEach((v) => repoGood.push(v))
+    sainsburysJsonResults.warnings.forEach((v) => repoWarning.push(v))
   }
 
   if (repoErrors.length == 0) {
@@ -170,20 +170,20 @@ const scanRepo = (repo: Repo) => {
 
 if (!tagFilter) {
   getRepoDetails('psr- org:JSainsburyPlc archived:false')
-    .then(repos => {
+    .then((repos) => {
       repos.forEach(scanRepo)
     })
-    .catch(r => console.error(r))
+    .catch((r) => console.error(r))
 
   getRepoDetails('driveplan- org:JSainsburyPlc archived:false')
-    .then(repos => {
+    .then((repos) => {
       repos.forEach(scanRepo)
     })
-    .catch(r => console.error(r))
+    .catch((r) => console.error(r))
 } else {
   getRepoDetails(`topic:${tagFilter} org:JSainsburyPlc archived:false`)
-    .then(repos => {
+    .then((repos) => {
       repos.forEach(scanRepo)
     })
-    .catch(r => console.error(r))
+    .catch((r) => console.error(r))
 }
