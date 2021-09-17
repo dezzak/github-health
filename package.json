@@ -16,7 +16,8 @@
     "compile": "tsc --noEmit",
     "start": "node .",
     "lint": "tslint --project .",
-    "prettier": "prettier --list-different \"src/**/*.ts\""
+    "prettier": "prettier --list-different \"src/**/*.ts\"",
+    "prettier:fix": "prettier --write \"src/**/*.{ts,tsx}\""
   },
   "keywords": [],
   "author": "",

@@ -4,46 +4,46 @@ import fetchGraphQL from '../utils/fetchGraphQL'
 const githubToken = process.env.GITHUB_TOKEN
 const GITHUB_URL = 'https://api.github.com/graphql'
 const GITHUB_REPO_NAMES_QUERY = gql`
-query ($query: String!) {
-  search(query: $query, type: REPOSITORY, first: 100) {
-    nodes {
-      ... on Repository {
-        name
-        codeowners: object(expression: "master:.github/CODEOWNERS") {
-          ... on Blob {
-            text
-          }
-        }
-        oldDependabot: object(expression: "master:.dependabot/config.yml") {
-          abbreviatedOid
-        }
-        newDependabot: object(expression: "master:.github/dependabot.yml") {
-          abbreviatedOid
-        }
-        prTemplate: object(expression: "master:.github/PULL_REQUEST_TEMPLATE.md") {
-          abbreviatedOid
-        }
-        prTemplateAlt: object(expression: "master:.github/PULL_REQUEST_TEMPLATE") {
-          abbreviatedOid
-        }
-        sainsburysJson: object(expression: "master:sainsburys.json") {
-          abbreviatedOid
-        }
-        repositoryTopics(first: 50) {
-          nodes {
-            topic {
-              name
+  query ($query: String!) {
+    search(query: $query, type: REPOSITORY, first: 100) {
+      nodes {
+        ... on Repository {
+          name
+          codeowners: object(expression: "master:.github/CODEOWNERS") {
+            ... on Blob {
+              text
             }
           }
+          oldDependabot: object(expression: "master:.dependabot/config.yml") {
+            abbreviatedOid
+          }
+          newDependabot: object(expression: "master:.github/dependabot.yml") {
+            abbreviatedOid
+          }
+          prTemplate: object(expression: "master:.github/PULL_REQUEST_TEMPLATE.md") {
+            abbreviatedOid
+          }
+          prTemplateAlt: object(expression: "master:.github/PULL_REQUEST_TEMPLATE") {
+            abbreviatedOid
+          }
+          sainsburysJson: object(expression: "master:sainsburys.json") {
+            abbreviatedOid
+          }
+          repositoryTopics(first: 50) {
+            nodes {
+              topic {
+                name
+              }
+            }
+          }
+          viewerCanAdminister
         }
-        viewerCanAdminister
       }
     }
   }
-}
 `
 const headers = {
-  Authorization: `bearer ${githubToken}`
+  Authorization: `bearer ${githubToken}`,
 }
 
 interface ObjectContents {
@@ -59,7 +59,7 @@ interface Topic {
 }
 
 interface RepositoryTopicConnection {
-  nodes: Array<{topic: Topic}>
+  nodes: Array<{ topic: Topic }>
 }
 
 interface RepoResponse {
@@ -93,21 +93,21 @@ interface RepoNameQueryResponse {
 }
 
 const executeQuery = async (query: string): Promise<RepoNameQueryResponse> => {
-  return await fetchGraphQL<RepoNameQueryResponse>(GITHUB_URL, GITHUB_REPO_NAMES_QUERY, {query}, headers)
+  return await fetchGraphQL<RepoNameQueryResponse>(GITHUB_URL, GITHUB_REPO_NAMES_QUERY, { query }, headers)
 }
 
 const mapTopics = (topicConnection: RepositoryTopicConnection): string[] => {
-  return topicConnection.nodes.map(topic => topic.topic.name)
+  return topicConnection.nodes.map((topic) => topic.topic.name)
 }
 
 const mapRepo = (repoResponse: RepoResponse): Repo => {
   const repositoryTopics = mapTopics(repoResponse.repositoryTopics)
-  return {...repoResponse, repositoryTopics}
+  return { ...repoResponse, repositoryTopics }
 }
 
 const getRepoDetails = async (query: string): Promise<Array<Repo>> => {
   const response = await executeQuery(query)
-  return response.search.nodes.map(mapRepo);
+  return response.search.nodes.map(mapRepo)
 }
 
 export { Repo }
