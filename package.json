@@ -8,8 +8,8 @@
   },
   "main": "dist/index.js",
   "engines": {
-    "node": "14.x",
-    "npm": "7.x"
+    "node": "^14.16.0",
+    "npm": "8.x"
   },
   "scripts": {
     "build": "rm -rf dist && tsc",
