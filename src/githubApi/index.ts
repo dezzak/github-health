@@ -1,4 +1,5 @@
 import { gql } from 'graphql-request/dist'
+
 import fetchGraphQL from '../utils/fetchGraphQL'
 
 const githubToken = process.env.GITHUB_TOKEN
@@ -93,7 +94,7 @@ interface RepoNameQueryResponse {
 }
 
 const executeQuery = async (query: string): Promise<RepoNameQueryResponse> => {
-  return await fetchGraphQL<RepoNameQueryResponse>(GITHUB_URL, GITHUB_REPO_NAMES_QUERY, { query }, headers)
+  return fetchGraphQL<RepoNameQueryResponse>(GITHUB_URL, GITHUB_REPO_NAMES_QUERY, { query }, headers)
 }
 
 const mapTopics = (topicConnection: RepositoryTopicConnection): string[] => {

@@ -27,7 +27,7 @@ const checkPRTemplate = (repo: Repo): CheckResults => {
 
 const checkDependabot = (repo: Repo): CheckResults => {
   const results: CheckResults = { errors: [], warnings: [], good: [] }
-  if (/\-infra$/.test(repo.name)) {
+  if (/-infra$/.test(repo.name)) {
     // Skip for infra repos
     return results
   }
@@ -163,9 +163,15 @@ const scanRepo = (repo: Repo) => {
   } else {
     console.warn(`❌️ ${repo.name}`)
   }
-  repoErrors.length > 0 && console.warn(repoErrors)
-  repoWarning.length > 0 && console.warn(repoWarning)
-  repoGood.length > 0 && FLAG_SHOW_GOOD_DETAIL && console.info(repoGood)
+  if (repoErrors.length > 0) {
+    console.warn(repoErrors)
+  }
+  if (repoWarning.length > 0) {
+    console.warn(repoWarning)
+  }
+  if (repoGood.length > 0 && FLAG_SHOW_GOOD_DETAIL) {
+    console.info(repoGood)
+  }
 }
 
 if (!tagFilter) {

@@ -2,6 +2,9 @@ module.exports = {
     // Prevent ESLint from using rules in parent folders to this project.
     root: true,
     extends: [
+        'eslint:recommended',
+        'plugin:import/recommended',
+        "plugin:react/recommended",
         // Airbnb's React ruleset, adapted for TypeScript
         'airbnb-typescript',
         // Prettier rules and plugins. Must be included after other extends, to avoid conflict.
@@ -20,13 +23,9 @@ module.exports = {
     plugins: ['@typescript-eslint'],
     ignorePatterns: ['/*.js', 'stubs/*'],
     rules: {
-        // Only allow process.env in specific, centralised locations.
-        // The collects together all environment variable usage.
-        'no-process-env': 'error',
+        'no-process-env': 'off',
 
-        // Console should not be used directly, to ensure our logging is done in a
-        // safe and reportable way for the cluster
-        'no-console': 'error',
+        'no-console': 'off',
 
         // TypeScript is providing compile time prop checking
         'react/prop-types': 'off',
@@ -49,7 +48,7 @@ module.exports = {
     },
     settings: {
         react: {
-            version: 'detect',
+            version: '16.0',
         },
     },
 }

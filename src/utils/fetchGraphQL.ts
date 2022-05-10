@@ -12,7 +12,7 @@ const fetchGraphQL = async <T>(
   try {
     return await gql.request(query, variables)
   } catch (e: any) {
-    const { errors, status } = e?.response
+    const { errors, status } = e?.response || { errors: false, status: -69 }
 
     if (errors) {
       throw new Error(`GraphQL Error: ${errors[0]?.message}`)
