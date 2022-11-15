@@ -29,7 +29,7 @@
     "graphql-request": "^5.0.0"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.42.1",
+    "@typescript-eslint/eslint-plugin": "^5.43.0",
     "@typescript-eslint/eslint-plugin-tslint": "^5.42.1",
     "@typescript-eslint/parser": "^5.40.1",
     "eslint": "^8.27.0",
