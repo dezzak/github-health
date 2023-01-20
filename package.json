@@ -9,7 +9,7 @@
   "main": "dist/index.js",
   "engines": {
     "node": "^16.14.0",
-    "npm": "8.x"
+    "npm": "9.x"
   },
   "scripts": {
     "build": "rm -rf dist && tsc",
