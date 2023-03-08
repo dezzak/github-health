@@ -1,10 +1,10 @@
 import 'cross-fetch/polyfill'
-import { GraphQLClient } from 'graphql-request'
+import {GraphQLClient, Variables} from 'graphql-request'
 
 const fetchGraphQL = async <T>(
   url: string,
   query: string,
-  variables?: object,
+  variables?: Variables,
   headers?: Record<string, string>
 ): Promise<T> => {
   const gql = new GraphQLClient(url, { headers })
