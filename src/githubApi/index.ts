@@ -1,4 +1,4 @@
-import { gql } from 'graphql-request/dist'
+import { gql } from 'graphql-request'
 
 import fetchGraphQL from '../utils/fetchGraphQL'
 
