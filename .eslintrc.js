@@ -21,7 +21,7 @@ module.exports = {
         jest: true,
     },
     plugins: ['@typescript-eslint'],
-    ignorePatterns: ['/*.js', 'stubs/*'],
+    ignorePatterns: ['/*.js', 'stubs/*', 'dist/*', 'node_modules/*'],
     rules: {
         'no-process-env': 'off',
 
@@ -46,6 +46,11 @@ module.exports = {
             },
         ],
     },
+    overrides: [
+        {
+            files: ['src/**/*.{ts,tsx}']
+        }
+    ],
     settings: {
         react: {
             version: '16.0',
