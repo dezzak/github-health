@@ -23,7 +23,7 @@
   "author": "",
   "license": "GPL-3.0-only",
   "dependencies": {
-    "@types/node": "^20.10.1",
+    "@types/node": "^20.10.4",
     "cross-fetch": "^4.0.0",
     "graphql": "^16.8.1",
     "graphql-request": "^6.1.0"
